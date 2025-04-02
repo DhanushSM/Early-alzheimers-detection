@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results - 3D Scan</title>
+</head>
+<body>
+    <h1>3D MRI Analysis Results</h1>
+    <h2>Predicted Condition: {{ results.predicted_condition }}</h2>
+
+    <h3>Volumetric Analysis:</h3>
+    <ul>
+        <li>Hippocampal Volume: {{ results.hippocampal_volume }}</li>
+        <li>Ventricle Size: {{ results.ventricle_size }}</li>
+        <li>Cortical Thickness: {{ results.cortical_thickness }}</li>
+    </ul>
+
+    <h3>Abnormalities Detected:</h3>
+    <ul>
+        <li>Hippocampus: {% if results.abnormalities.hippocampus %}Present{% else %}None{% endif %}</li>
+        <li>Temporal Lobe: {% if results.abnormalities.temporal_lobe %}Present{% else %}None{% endif %}</li>
+        <li>Frontal Lobe: {% if results.abnormalities.frontal_lobe %}Present{% else %}None{% endif %}</li>
+    </ul>
+
+    <p><em>Note: This is mock data for demonstration purposes.</em></p>
+    <p><a href="/">Analyze another scan</a></p>
+</body>
+</html>

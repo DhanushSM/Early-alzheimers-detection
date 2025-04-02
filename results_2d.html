@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results - 2D Scan</title>
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --danger-color: #ea4335;
+            --light-gray: #f8f9fa;
+            --dark-gray: #6c757d;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        h2 {
+            color: var(--dark-gray);
+            margin-top: 30px;
+            border-bottom: 2px solid var(--light-gray);
+            padding-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .result-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .image-box {
+            text-align: center;
+        }
+
+        .image-box img {
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 100%;
+            height: auto;
+        }
+
+        .image-box p {
+            margin-top: 10px;
+            font-style: italic;
+            color: var(--dark-gray);
+        }
+
+        .diagnosis {
+            font-size: 1.2rem;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            background-color: var(--light-gray);
+            text-align: center;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+
+        .confidence-high {
+            color: var(--secondary-color);
+        }
+
+        .confidence-medium {
+            color: #fbbc05;
+        }
+
+        .confidence-low {
+            color: var(--danger-color);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #3367d6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>2D MRI Analysis Results</h1>
+
+        <div class="image-container">
+            <div class="image-box">
+                <img src="{{ url_for('uploaded_file', filename=filename) }}" width="400" alt="Original MRI Scan">
+                <p>Original MRI Scan</p>
+            </div>
+        </div>
+
+        <div class="diagnosis {% if results.confidence >= 0.8 %}confidence-high{% elif results.confidence >= 0.5 %}confidence-medium{% else %}confidence-low{% endif %}">
+            <h2>Diagnosis: {{ results.class_name }} ({{ (results.confidence*100)|round(1) }}% confidence)</h2>
+        </div>
+
+        <div class="image-container">
+            <div class="image-box">
+                <img src="{{ url_for('uploaded_file', filename=plot_filename) }}" width="600" alt="Analysis Visualization">
+                <p>Analysis Visualization</p>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <a href="/" class="btn">Analyze another scan</a>
+        </div>
+    </div>
+</body>
+</html>
